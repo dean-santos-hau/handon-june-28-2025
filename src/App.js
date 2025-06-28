@@ -4,15 +4,8 @@ import ChickenBanana from './ChickenBanana';
 import { useState } from "react";
 import './App.css';
 
-const imageUrls = [
-  'https://thumbs.dreamstime.com/b/bunch-bananas-6175887.jpg?w=768',
-  'https://png.pngtree.com/png-vector/20240203/ourmid/pngtree-happy-smile-emoji-png-png-image_11596423.png',
-  'https://thumbs.dreamstime.com/b/bunch-bananas-6175887.jpg?w=768',
-  'https://png.pngtree.com/png-vector/20240203/ourmid/pngtree-happy-smile-emoji-png-png-image_11596423.png',
-  'https://thumbs.dreamstime.com/b/bunch-bananas-6175887.jpg?w=768',
-  'https://png.pngtree.com/png-vector/20240203/ourmid/pngtree-happy-smile-emoji-png-png-image_11596423.png',
-
-];
+const smileyImg = 'https://i.pinimg.com/736x/cb/3e/01/cb3e014d6122af3b43933bb571859ae7.jpg'
+const sadImg = 'https://media.tenor.com/-iiMZcIHkE8AAAAe/sad-emoji.png'
 
 function getRandomImage() {
   const index = Math.floor(Math.random() * imageUrls.length);
@@ -33,6 +26,10 @@ function App() {
   };
   
   return (
+    <div>
+
+    </div>
+    /*
     <div className='grid'>
       {Array.from({ length: 36 }).map((_, index) => (
         <div key={index} style={{ position: 'relative' }}>
@@ -45,6 +42,7 @@ function App() {
         </div>
       ))}
     </div>
+  */
   );
 }
 export default App;
