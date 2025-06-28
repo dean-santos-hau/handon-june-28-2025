@@ -1,33 +1,64 @@
 import logo from './logo.svg';
 //import Counter from './UseStateAndEventHandling';
-import ChickenBanana from './ChickenBanana';
+//import ChickenBanana from './ChickenBanana';
 import { useState } from "react";
 import './App.css';
 
 const smileyImg = 'https://i.pinimg.com/736x/cb/3e/01/cb3e014d6122af3b43933bb571859ae7.jpg'
 const sadImg = 'https://media.tenor.com/-iiMZcIHkE8AAAAe/sad-emoji.png'
+const NUM_TILES = 36;
 
-function getRandomImage() {
-  const index = Math.floor(Math.random() * imageUrls.length);
-  return imageUrls[index];
+function generateGridImages() {
+  const half = NUM_TILES / 2;
+  const images = Array(half).fill(smileyImg).concat(Array(half).fill(sadImg));
+
+  // Shuffle images randomly
+  for (let i = images.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [images[i], images[j]] = [images[j], images[i]];
+  }
+
+  return images.map((src, index) => ({
+    id: index,
+    number: index + 1,
+    src,
+    clicked: false,
+    revealed: false,
+  }));
 }
 
-
 function App() {
-  const [images, setImages] = useState(Array(4).fill().map(getRandomImage));
-
-  const handleClick = () => {
-    setImages(images.map(() => getRandomImage()));
-  };
-
-  const randImg = () => {
-    const randomIndex = Math.floor(Math.random() * images.length);
-    return images[randomIndex];
-  };
+  const [tiles, setTiles] = useState(generateGridImages());
   
   return (
-    <div>
-
+    <div className="container">
+      <div className="grid">
+        {tiles.map((tile) => (
+          <div
+            key={tile.id}
+            className="tile"
+            style={{
+              width: '100px',
+              height: '70px',
+              border: '2px solid #000',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#ccc',
+            }}
+          >
+          {tile.revealed ? (
+              <img
+                src={tile.src}
+                alt="tile"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{tile.number}</span>
+          )}
+          </div>
+        ))}
+      </div>
     </div>
     /*
     <div className='grid'>
