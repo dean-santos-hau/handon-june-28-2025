@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 //import Counter from './UseStateAndEventHandling';
-//import ChickenBanana from './ChickenBanana';
 import { useState } from "react";
 import './App.css';
 
@@ -54,7 +53,7 @@ function App() {
       return;
     }
 
-    // Check for win condition (all correct tiles revealed)
+    // Check for win condition
     const remaining = updatedTiles.filter(tile => tile.src === playerImage && !tile.clicked);
     if (remaining.length === 0) {
       setWinner(currentPlayer);
@@ -114,20 +113,6 @@ function App() {
         </div>
       )}
     </div>
-    /*
-    <div className='grid'>
-      {Array.from({ length: 36 }).map((_, index) => (
-        <div key={index} style={{ position: 'relative' }}>
-          <img
-            src={randImg()} // Generate random image for each div
-            alt="Random"
-            style={{ width: '100px', height: '100px', objectFit: 'cover', border: '2px solid #000000'}}
-            onClick={() => handleClick(`Image ${index + 1}`)} // Optionally pass data on click
-          />
-        </div>
-      ))}
-    </div>
-  */
   );
 }
 export default App;
@@ -138,14 +123,14 @@ export default App;
 //function App() {
 //  return (
 //    <div>
-//      <ChickenBanana />
+//      <Counter />
 //    </div>
 //  );
 //}
 // function App() {
 //   return (
 //     <div className="App">
-//       <Counter />
+//       
 //       <Welcome name='Algo'></Welcome>
 //       <Welcome name='Rena'></Welcome>
 //       <Welcome name='Logistx'></Welcome>
