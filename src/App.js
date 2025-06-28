@@ -39,7 +39,7 @@ function App() {
           <img
             src={randImg()} // Generate random image for each div
             alt="Random"
-            style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+            style={{ width: '100px', height: '100px', objectFit: 'cover', border: '2px solid #000000'}}
             onClick={() => handleClick(`Image ${index + 1}`)} // Optionally pass data on click
           />
         </div>
