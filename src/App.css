@@ -12,8 +12,11 @@ align-items: center;
 .grid{ 
   display: grid;
   grid-template-columns: repeat(6, 100px);
-  gap: 10px; 
+  gap: 10px;
+  border: 1px solid; 
 }
+
+
 
 
 
