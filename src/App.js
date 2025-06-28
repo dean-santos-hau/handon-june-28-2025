@@ -74,9 +74,22 @@ function App() {
 
   return (
     <div className="container">
+      <h2>Mechanics</h2>
+      <ol>
+        <li>There are two players, smiley face player and sad player</li> 
+        <li>Both players should agree they click the numbered tiles at the same time</li> 
+        <li>The player who first finish clicking the tiles with his/her choice (Smiley/Sad) without mistake wins!</li> 
+        <li>But in the event that one of the player committed a mistake then we declare the other player that is consistent wins!</li> 
+      </ol>
       <h3>Player 1: Smiley &nbsp;&nbsp;|&nbsp;&nbsp; Player 2: Sad</h3>
       {!gameOver && (
-        <p>🎮 <strong>{currentPlayer.toUpperCase()}</strong>'s turn</p>
+        <p className='turns'>🎮 <strong>{currentPlayer.toUpperCase()}</strong>'s turn</p>
+      )}
+      {gameOver && (
+        <div className="result">
+          <h2>🏆 {winner.toUpperCase()} wins the game!</h2>
+          <button onClick={resetGame}>Play Again</button>
+        </div>
       )}
       <div className="grid">
         {tiles.map((tile) => (
@@ -85,20 +98,30 @@ function App() {
             className="tile"
             onClick={() => handleClick(tile.id)}
             style={{
-              width: '100px',
+              color: 'rgb(9, 46, 255)',
+              width: '70px',
               height: '70px',
-              border: '2px solid #000',
+              border: 'none',
+              borderRadius: '10px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              backgroundColor: '#ccc',
+              backgroundColor: 'yellow',
+              cursor: 'pointer',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
             }}
           >
           {tile.revealed ? (
               <img
                 src={tile.src}
                 alt="tile"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover' ,
+                  border: 'none',
+                  borderRadius: '10px',
+                }}
               />
             ) : (
               <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{tile.number}</span>
@@ -106,12 +129,7 @@ function App() {
           </div>
         ))}
       </div>
-      {gameOver && (
-        <div className="result">
-          <h2>🏆 {winner.toUpperCase()} wins the game!</h2>
-          <button onClick={resetGame}>Play Again</button>
-        </div>
-      )}
+      
     </div>
   );
 }
