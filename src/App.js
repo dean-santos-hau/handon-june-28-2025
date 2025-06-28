@@ -29,14 +29,62 @@ function generateGridImages() {
 
 function App() {
   const [tiles, setTiles] = useState(generateGridImages());
-  
+  const [currentPlayer, setCurrentPlayer] = useState('smiley');
+  const [gameOver, setGameOver] = useState(false);
+  const [winner, setWinner] = useState(null);
+
+  const handleClick = (tileId) => {
+    if (gameOver) return;
+
+    const clickedTile = tiles.find(t => t.id === tileId);
+    if (clickedTile.revealed) return;
+
+    const playerImage = currentPlayer === 'smiley' ? smileyImg : sadImg;
+    const isCorrect = clickedTile.src === playerImage;
+
+    // Update tiles
+    const updatedTiles = tiles.map(tile =>
+      tile.id === tileId ? { ...tile, revealed: true, clicked: true } : tile
+    );
+    setTiles(updatedTiles);
+
+    if (!isCorrect) {
+      setWinner(currentPlayer === 'smiley' ? 'sad' : 'smiley');
+      setGameOver(true);
+      return;
+    }
+
+    // Check for win condition (all correct tiles revealed)
+    const remaining = updatedTiles.filter(tile => tile.src === playerImage && !tile.clicked);
+    if (remaining.length === 0) {
+      setWinner(currentPlayer);
+      setGameOver(true);
+      return;
+    }
+
+    // Switch player turn
+    setCurrentPlayer(currentPlayer === 'smiley' ? 'sad' : 'smiley');
+  };
+
+  const resetGame = () => {
+    setTiles(generateGridImages());
+    setCurrentPlayer('smiley');
+    setGameOver(false);
+    setWinner(null);
+  };
+
   return (
     <div className="container">
+      <h3>Player 1: Smiley &nbsp;&nbsp;|&nbsp;&nbsp; Player 2: Sad</h3>
+      {!gameOver && (
+        <p>🎮 <strong>{currentPlayer.toUpperCase()}</strong>'s turn</p>
+      )}
       <div className="grid">
         {tiles.map((tile) => (
           <div
             key={tile.id}
             className="tile"
+            onClick={() => handleClick(tile.id)}
             style={{
               width: '100px',
               height: '70px',
@@ -59,6 +107,12 @@ function App() {
           </div>
         ))}
       </div>
+      {gameOver && (
+        <div className="result">
+          <h2>🏆 {winner.toUpperCase()} wins the game!</h2>
+          <button onClick={resetGame}>Play Again</button>
+        </div>
+      )}
     </div>
     /*
     <div className='grid'>
