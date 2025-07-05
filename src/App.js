@@ -96,7 +96,7 @@ function App() {
       )}
       {gameOver && (
         <div className="result">
-          <h2>You lose! {winner?.toUpperCase()} wins!</h2>
+          <h2>You lose! Try Again!!!!</h2>
           <button onClick={resetGame}>Play Again</button>
         </div>
       )}
