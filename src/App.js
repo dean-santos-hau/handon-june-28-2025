@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import { useState } from "react";
 import './App.css';
 
-const smileyImg = 'https://i.pinimg.com/736x/cb/3e/01/cb3e014d6122af3b43933bb571859ae7.jpg'
+const smileyImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9boag3Af3UGu39_vWLJbbrG-OYBSAOlvw9w&s'
 const sadImg = 'https://media.tenor.com/-iiMZcIHkE8AAAAe/sad-emoji.png'
 const NUM_TILES = 36;
 
