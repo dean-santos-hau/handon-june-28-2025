@@ -10,7 +10,7 @@ function Counter() {
     return(
         <div>
             <p>You clicked{count} times.</p>
-            <button style="margin-bottom: 12px;" onClick={handleClick}>Click me</button>
+            <button onClick={handleClick}>Click me</button>
         </div>
     );
 }
