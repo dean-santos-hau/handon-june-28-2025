@@ -3,8 +3,9 @@ import logo from './logo.svg';
 import { useState } from "react";
 import './App.css';
 
-const smileyImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9boag3Af3UGu39_vWLJbbrG-OYBSAOlvw9w&s'
-const sadImg = 'https://media.tenor.com/-iiMZcIHkE8AAAAe/sad-emoji.png'
+
+const smileyImg = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9boag3Af3UGu39_vWLJbbrG-OYBSAOlvw9w&s';
+const sadImg = 'https://media.tenor.com/-iiMZcIHkE8AAAAe/sad-emoji.png';
 const NUM_TILES = 36;
 
 function generateGridImages() {
@@ -27,42 +28,31 @@ function generateGridImages() {
 }
 
 function App() {
+  const [selectedAvatar, setSelectedAvatar] = useState(null); // <-- New state
   const [tiles, setTiles] = useState(generateGridImages());
-  const [currentPlayer, setCurrentPlayer] = useState('smiley');
+  const [, setCurrentPlayer] = useState('smiley');
   const [gameOver, setGameOver] = useState(false);
   const [winner, setWinner] = useState(null);
 
   const handleClick = (tileId) => {
-    if (gameOver) return;
+    if (gameOver || !selectedAvatar) return;
 
     const clickedTile = tiles.find(t => t.id === tileId);
     if (clickedTile.revealed) return;
 
-    const playerImage = currentPlayer === 'smiley' ? smileyImg : sadImg;
+    const playerImage = selectedAvatar === 'smiley' ? smileyImg : sadImg;
     const isCorrect = clickedTile.src === playerImage;
 
-    // Update tiles
     const updatedTiles = tiles.map(tile =>
       tile.id === tileId ? { ...tile, revealed: true, clicked: true } : tile
     );
     setTiles(updatedTiles);
 
     if (!isCorrect) {
-      setWinner(currentPlayer === 'smiley' ? 'sad' : 'smiley');
+      setWinner(selectedAvatar === 'smiley' ? 'sad' : 'smiley');
       setGameOver(true);
       return;
     }
-
-    // Check for win condition
-    const remaining = updatedTiles.filter(tile => tile.src === playerImage && !tile.clicked);
-    if (remaining.length === 0) {
-      setWinner(currentPlayer);
-      setGameOver(true);
-      return;
-    }
-
-    // Switch player turn
-    setCurrentPlayer(currentPlayer === 'smiley' ? 'sad' : 'smiley');
   };
 
   const resetGame = () => {
@@ -70,27 +60,47 @@ function App() {
     setCurrentPlayer('smiley');
     setGameOver(false);
     setWinner(null);
+    setSelectedAvatar(null); // <-- Reset avatar
   };
+
+  if (!selectedAvatar) {
+    return (
+      <div className="container">
+        <h2>Select Your Avatar to Start</h2>
+        <div style={{ display: 'flex', gap: '40px', justifyContent: 'center' }}>
+          <div onClick={() => setSelectedAvatar('smiley')} style={{ cursor: 'pointer', textAlign: 'center' }}>
+            <img src={smileyImg} alt="Smiley" style={{ width: 80, height: 80 }} />
+            <p>Smiley</p>
+          </div>
+          <div onClick={() => setSelectedAvatar('sad')} style={{ cursor: 'pointer', textAlign: 'center' }}>
+            <img src={sadImg} alt="Sad" style={{ width: 80, height: 80 }} />
+            <p>Sad</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
       <h2>Mechanics</h2>
       <ol>
-        <li>There are two players, smiley face player and sad player</li> 
-        <li>Both players should agree they click the numbered tiles at the same time</li> 
-        <li>The player who first finish clicking the tiles with his/her choice (Smiley/Sad) without mistake wins!</li> 
-        <li>But in the event that one of the player committed a mistake then we declare the other player that is consistent wins!</li> 
+        <li>There are two players: Smiley and Sad</li>
+        <li>Both players should agree to click the numbered tiles at the same time</li>
+        <li>The first to finish clicking their avatar tiles correctly wins!</li>
+        <li>If one player clicks wrong, the other wins automatically</li>
       </ol>
-      <h3>Player 1: Smiley &nbsp;&nbsp;|&nbsp;&nbsp; Player 2: Sad</h3>
+      
       {!gameOver && (
-        <p className='turns'>🎮 <strong>{currentPlayer.toUpperCase()}</strong>'s turn</p>
+        <p className='turns'>🎮 Picked <strong>{selectedAvatar.toUpperCase()}</strong></p>
       )}
       {gameOver && (
         <div className="result">
-          <h2>🏆 {winner.toUpperCase()} wins the game!</h2>
+          <h2>You lose! {winner?.toUpperCase()} wins!</h2>
           <button onClick={resetGame}>Play Again</button>
         </div>
       )}
+
       <div className="grid">
         {tiles.map((tile) => (
           <div
@@ -111,29 +121,30 @@ function App() {
               boxShadow: '0 4px 8px rgba(0, 0, 0, 0.15)'
             }}
           >
-          {tile.revealed ? (
+            {tile.revealed ? (
               <img
                 src={tile.src}
                 alt="tile"
-                style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  objectFit: 'cover' ,
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
                   border: 'none',
                   borderRadius: '10px',
                 }}
               />
             ) : (
               <span style={{ fontSize: '20px', fontWeight: 'bold' }}>{tile.number}</span>
-          )}
+            )}
           </div>
         ))}
       </div>
-      
     </div>
   );
 }
+
 export default App;
+
 //function Welcome(props) {
 //  return <h2>Welcome, {props.name}!</h2>
 //}
