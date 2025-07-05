@@ -70,11 +70,11 @@ function App() {
         <div style={{ display: 'flex', gap: '40px', justifyContent: 'center' }}>
           <div onClick={() => setSelectedAvatar('smiley')} style={{ cursor: 'pointer', textAlign: 'center' }}>
             <img src={smileyImg} alt="Smiley" style={{ width: 80, height: 80 }} />
-            <p>Smiley</p>
+            <strong><p>Smiley</p></strong>
           </div>
           <div onClick={() => setSelectedAvatar('sad')} style={{ cursor: 'pointer', textAlign: 'center' }}>
             <img src={sadImg} alt="Sad" style={{ width: 80, height: 80 }} />
-            <p>Sad</p>
+            <strong><p>Sad</p></strong>
           </div>
         </div>
       </div>
@@ -90,9 +90,9 @@ function App() {
         <li>The first to finish clicking their avatar tiles correctly wins!</li>
         <li>If one player clicks wrong, the other wins automatically</li>
       </ol>
-      
+
       {!gameOver && (
-        <p className='turns'>🎮 Picked <strong>{selectedAvatar.toUpperCase()}</strong></p>
+        <p className='turns'>🎮 You picked <strong>{selectedAvatar.toUpperCase()}</strong></p>
       )}
       {gameOver && (
         <div className="result">
